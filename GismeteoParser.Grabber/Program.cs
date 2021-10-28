@@ -1,8 +1,6 @@
-﻿using System;
+﻿using HtmlAgilityPack;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GismeteoParser.Grabber
 {
@@ -10,6 +8,8 @@ namespace GismeteoParser.Grabber
     {
         static void Main(string[] args)
         {
+            var gp = new GismeteoParser();
+            var p = gp.Get();
         }
     }
 }
