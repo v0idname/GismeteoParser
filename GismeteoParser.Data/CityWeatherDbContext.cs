@@ -6,6 +6,8 @@ namespace GismeteoParser.Data
     {
         public DbSet<CityWeather> CitiesWeather { get; set; }
 
+        public DbSet<OneDayWeather> OneDayWeathers { get; set; }
+
         public CityWeatherDbContext(DbContextOptions<CityWeatherDbContext> options) : base(options)
         {
 

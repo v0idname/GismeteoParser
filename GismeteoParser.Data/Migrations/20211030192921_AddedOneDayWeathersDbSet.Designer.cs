@@ -3,14 +3,16 @@ using System;
 using GismeteoParser.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GismeteoParser.Data.Migrations
 {
     [DbContext(typeof(CityWeatherDbContext))]
-    partial class CityWeatherDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211030192921_AddedOneDayWeathersDbSet")]
+    partial class AddedOneDayWeathersDbSet
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
