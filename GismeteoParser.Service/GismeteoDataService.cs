@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace GismeteoParser.Service
 {
-    public class Service : IDisposable
+    public class GismeteoDataService : IDisposable
     {
         private CityWeatherDbContext _dbContext;
 
