@@ -55,5 +55,11 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GismeteoParser.Data\GismeteoParser.Data.csproj">
+      <Project>{BACD3389-2EE7-4335-BBF7-EF1EE1696922}</Project>
+      <Name>GismeteoParser.Data</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
