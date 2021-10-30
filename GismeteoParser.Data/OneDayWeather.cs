@@ -8,6 +8,7 @@
         public int MinTempC { get; set; }
         public int MaxWindSpeedMs { get; set; }
         public decimal PrecipitationMm { get; set; }
+        public CityWeather CityWeather { get; set; }
 
         public override string ToString()
         {

@@ -166,6 +166,10 @@
     <Compile Include="Migrations\20211030153314_Init.designer.cs">
       <DependentUpon>20211030153314_Init.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\20211030163743_AddedRefToCityWeather.cs" />
+    <Compile Include="Migrations\20211030163743_AddedRefToCityWeather.designer.cs">
+      <DependentUpon>20211030163743_AddedRefToCityWeather.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\CityWeatherDbContextModelSnapshot.cs" />
     <Compile Include="OneDayWeather.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
