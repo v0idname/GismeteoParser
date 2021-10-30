@@ -2,7 +2,7 @@
 
 namespace GismeteoParser.Data
 {
-    public class CityWeather
+    public class CityWeather : Entity
     {
         public string CityName { get; set; }
 

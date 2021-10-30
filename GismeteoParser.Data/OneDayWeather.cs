@@ -1,6 +1,6 @@
 ﻿namespace GismeteoParser.Data
 {
-    public class OneDayWeather
+    public class OneDayWeather : Entity
     {
         public string DayOfWeek { get; set; }
         public string DayPlusMonth { get; set; }

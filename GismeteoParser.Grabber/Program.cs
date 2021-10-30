@@ -1,8 +1,4 @@
-﻿using HtmlAgilityPack;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace GismeteoParser.Grabber
+﻿namespace GismeteoParser.Grabber
 {
     class Program
     {
