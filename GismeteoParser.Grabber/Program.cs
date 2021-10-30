@@ -8,11 +8,12 @@ namespace GismeteoParser.Grabber
 {
     class Program
     {
-        //private static IHost _host = CreateHostBuilder(Environment.GetCommandLineArgs()).Build();
         const string _connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=GismeteoParser.db;Integrated Security=True";
 
         static void Main(string[] args)
         {
+            Console.WriteLine("Grabber запущен, идёт обновление БД...");
+
             var dbContext = new CityWeatherDbContext(new DbContextOptionsBuilder<CityWeatherDbContext>().UseSqlServer(_connectionString).Options);
             dbContext.Database.Migrate();
 
@@ -25,6 +26,8 @@ namespace GismeteoParser.Grabber
                 dbContext.CitiesWeather.Add(cityWeather);
             dbContext.SaveChanges();
 
+            Console.WriteLine("БД обновлена, нажмите любую клавишу для выхода...");
+
             Console.ReadKey();
         }
 
@@ -36,7 +39,7 @@ namespace GismeteoParser.Grabber
         {
             services.AddDbContext<CityWeatherDbContext>(optAction =>
             {
-                optAction.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=GismeteoParser.db;Integrated Security=True");
+                optAction.UseSqlServer(_connectionString);
             }, ServiceLifetime.Transient, ServiceLifetime.Transient);
         }
     }
