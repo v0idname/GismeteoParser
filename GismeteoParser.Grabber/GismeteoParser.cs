@@ -39,11 +39,13 @@ namespace GismeteoParser.Grabber
         {
             HtmlDocument document = _htmlWeb.Load(urlToCity);
             var cityNode = document.DocumentNode.SelectSingleNode("//div[@class='subnav_search_city js_citytitle']");
-            var daysOfWeekNodes = document.DocumentNode.SelectNodes("//div[@class='w_date']/a/div[@class='w_date__day']");
+            //var daysOfWeekNodes = document.DocumentNode.SelectNodes("//div[@class='w_date']/a/div[@class='w_date__day']");
             var dayNodes = document.DocumentNode.SelectNodes("//div[@class='w_date']/a/span[contains(@class, 'w_date__date')]");
             var minMaxTempNodes = document.DocumentNode.SelectSingleNode("//div[@class='templine w_temperature']/div[@class='chart chart__temperature']/div[@class='values']");
             var maxWindNodes = document.DocumentNode.SelectNodes("//div[@class='widget__row widget__row_table widget__row_wind-or-gust']/div[@class='widget__item']/div[@class='w_wind']/div[@class='w_wind__warning w_wind__warning_ ']/span[@class='unit unit_wind_m_s']");
             var precipitationNodes = document.DocumentNode.SelectNodes("//div[@class='w_prec__value']");
+
+            var dates = GetDatesByNodes(dayNodes);
 
             var oneDayWeathers = new List<OneDayWeather>(10);
             for (int i = 0; i < 10; i++)
@@ -59,8 +61,7 @@ namespace GismeteoParser.Grabber
 
                 oneDayWeathers.Add(new OneDayWeather()
                 {
-                    DayOfWeek = daysOfWeekNodes[i].InnerText,
-                    DayPlusMonth = dayNodes[i].InnerText.Trim('\n').Trim(),
+                    Date = dates[i],
                     MinTempC = minTempC,
                     MaxTempC = maxTempC,
                     MaxWindSpeedMs = MaxWindSpeedMs,
@@ -73,6 +74,44 @@ namespace GismeteoParser.Grabber
                 CityName = cityNode.InnerText,
                 DaysWeather = oneDayWeathers
             };
+        }
+
+        private List<DateTime> GetDatesByNodes(HtmlNodeCollection nodes)
+        {
+            var resList = new List<DateTime>(10);
+            var dateNow = DateTime.Now;
+            var lastMonth = dateNow.Month;
+            for (int i = 0; i < 10; i++)
+            {
+                var s = nodes[i].InnerText.Trim('\n').Trim().Split(' ');
+                if (!int.TryParse(s[0], out int day))
+                    day = dateNow.Day;
+                if (s.Length == 2)
+                    lastMonth = GetMonthByRusString(s[1]);
+                resList.Add(new DateTime(dateNow.Year, lastMonth, day));
+            }
+            return resList;
+        }
+
+        private int GetMonthByRusString(string month)
+        {
+            switch (month)
+            {
+                case "янв": return 1;
+                case "фев": return 2;
+                case "мар": return 3;
+                case "апр": return 4;
+                case "май": return 5;
+                case "июн": return 6;
+                case "июл": return 7;
+                case "авг": return 8;
+                case "сен": return 9;
+                case "окт": return 10;
+                case "ноя": return 11;
+                case "дек": return 12;
+                default:
+                    return DateTime.Now.Month;
+            }
         }
 
         public IEnumerable<CityWeather> GetTopCitiesWeather()

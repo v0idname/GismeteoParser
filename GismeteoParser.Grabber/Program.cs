@@ -12,11 +12,6 @@ namespace GismeteoParser.Grabber
         const string _mssqlConnectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=GismeteoParser.db;Integrated Security=True";
         const string _mySqlConnString = "server=localhost;user=root;password=root;database=GismeteoParser.db;";
         const string _mySqlServerVersion = "5.7.36";
-        //const MySqlServerVersion _mySqlServerVersion = new MySqlServerVersion(new Version(8, 0, 11));
-        //optionsBuilder.UseMySql(
-        //        "server=localhost;user=root;password=12345678;database=usersdb5;", 
-
-        //    );
 
         static void Main(string[] args)
         {
@@ -34,7 +29,6 @@ namespace GismeteoParser.Grabber
             foreach (var cityWeather in citiesWeather)
                 dbContext.CitiesWeather.Add(cityWeather);
             dbContext.SaveChanges();
-
             dbContext.Dispose();
 
             Console.WriteLine("БД обновлена, нажмите любую клавишу для выхода...");

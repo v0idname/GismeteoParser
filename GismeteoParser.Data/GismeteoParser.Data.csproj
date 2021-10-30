@@ -176,6 +176,10 @@
     <Compile Include="Migrations\20211030175032_Init_mysql.designer.cs">
       <DependentUpon>20211030175032_Init_mysql.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\20211030184818_AddedDate.cs" />
+    <Compile Include="Migrations\20211030184818_AddedDate.designer.cs">
+      <DependentUpon>20211030184818_AddedDate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\CityWeatherDbContextModelSnapshot.cs" />
     <Compile Include="OneDayWeather.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
