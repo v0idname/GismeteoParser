@@ -1,9 +1,12 @@
 ﻿using GismeteoParser.Data;
+using GismeteoParser.Grabber.HtmlGetters;
+using GismeteoParser.Grabber.Parsers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Pomelo.EntityFrameworkCore.MySql.Storage;
 using System;
+using System.Linq;
 
 namespace GismeteoParser.Grabber
 {
@@ -12,22 +15,35 @@ namespace GismeteoParser.Grabber
         const string _mssqlConnectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=GismeteoParser.db;Integrated Security=True";
         const string _mySqlConnString = "server=localhost;user=root;password=root;database=GismeteoParser.db;";
         const string _mySqlServerVersion = "5.7.36";
+        const string URL = "https://www.gismeteo.ru/";
+        const string TIME_RANGE_POSTFIX = "10-days/";
 
         static void Main(string[] args)
         {
-            Console.WriteLine("Grabber запущен, идёт обновление БД...");
+            Console.WriteLine($"Получаем список популярных городов с {URL}...");
+
+            IHtmlGetter htmlGetter = new EoWebBrowserHtmlGetter();
+            var htmlString = htmlGetter.GetHtmlByUrl(URL);
+            IPopCitiesParser popCitiesParser = new PopCitiesJsParser();
+            var popCitiesLinks = popCitiesParser.GetPopCitiesLinks(htmlString);
+
+            Console.WriteLine("Идёт обновление БД...");
 
             var dbContext = new CityWeatherDbContext(new DbContextOptionsBuilder<CityWeatherDbContext>().UseMySql(
                 _mySqlConnString, s => s.ServerVersion(new ServerVersion(_mySqlServerVersion))).Options);
             dbContext.Database.Migrate();
-
-            var gp = new GismeteoParser();
-            var citiesWeather = gp.GetTopCitiesWeather();
-            //Console.WriteLine(string.Join("\r\n\r\n", citiesWeather));
-
             dbContext.CitiesWeather.RemoveRange(dbContext.CitiesWeather);
-            foreach (var cityWeather in citiesWeather)
+
+            ICityWeatherParser cityWeatherParser = new TenDaysCityWeatherParser();
+            htmlGetter = new WebClientHtmlGetter();
+            var popCities10DaysLinks = popCitiesLinks.Select(l => URL + l + TIME_RANGE_POSTFIX);
+            foreach (var cityLink in popCities10DaysLinks)
+            {
+                var cityHtml = htmlGetter.GetHtmlByUrl(cityLink);
+                var cityWeather = cityWeatherParser.GetCityWeather(cityHtml);
+                //Console.WriteLine(cityWeather);
                 dbContext.CitiesWeather.Add(cityWeather);
+            }
             dbContext.SaveChanges();
             dbContext.Dispose();
 

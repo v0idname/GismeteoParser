@@ -40,6 +40,15 @@
     <StartupObject>GismeteoParser.Grabber.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EO.Base, Version=21.2.70.0, Culture=neutral, PublicKeyToken=e92353a6bf73fffc, processorArchitecture=MSIL">
+      <HintPath>..\packages\EO.WebBrowser.21.2.70\lib\EO.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="EO.WebBrowser, Version=21.2.70.0, Culture=neutral, PublicKeyToken=e92353a6bf73fffc, processorArchitecture=MSIL">
+      <HintPath>..\packages\EO.WebBrowser.21.2.70\lib\EO.WebBrowser.dll</HintPath>
+    </Reference>
+    <Reference Include="EO.WebEngine, Version=21.2.70.0, Culture=neutral, PublicKeyToken=e92353a6bf73fffc, processorArchitecture=MSIL">
+      <HintPath>..\packages\EO.WebBrowser.21.2.70\lib\EO.WebEngine.dll</HintPath>
+    </Reference>
     <Reference Include="HtmlAgilityPack, Version=1.11.37.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
       <HintPath>..\packages\HtmlAgilityPack.1.11.37\lib\Net45\HtmlAgilityPack.dll</HintPath>
     </Reference>
@@ -266,7 +275,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GismeteoParser.cs" />
+    <Compile Include="Parsers\TenDaysCityWeatherParser.cs" />
+    <Compile Include="HtmlGetters\EoWebBrowserHtmlGetter.cs" />
+    <Compile Include="HtmlGetters\WebClientHtmlGetter.cs" />
+    <Compile Include="HtmlGetters\IHtmlGetter.cs" />
+    <Compile Include="Parsers\ICityWeatherParser.cs" />
+    <Compile Include="Parsers\IPopCitiesParser.cs" />
+    <Compile Include="Parsers\PopCitiesJsParser.cs" />
+    <Compile Include="Parsers\PopCitiesNonJsParser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -280,6 +296,7 @@
       <Name>GismeteoParser.Data</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Data.SqlClient.SNI.1.1.0\build\net46\Microsoft.Data.SqlClient.SNI.targets" Condition="Exists('..\packages\Microsoft.Data.SqlClient.SNI.1.1.0\build\net46\Microsoft.Data.SqlClient.SNI.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

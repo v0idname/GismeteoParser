@@ -2,50 +2,28 @@
 using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
-namespace GismeteoParser.Grabber
+namespace GismeteoParser.Grabber.Parsers
 {
-    public class GismeteoParser
+    public class TenDaysCityWeatherParser : ICityWeatherParser
     {
-        const string URL = "https://www.gismeteo.ru/";
-        const string TIME_RANGE_POSTFIX = "10-days/";
-        const string POP_CITIES_XPATH = "//noscript[@id='noscript']";
-        private HtmlWeb _htmlWeb = new HtmlWeb();
-
-        private IEnumerable<string> GetPopCitiesLinks()
+        public CityWeather GetCityWeather(string html)
         {
-            HtmlDocument document = _htmlWeb.Load(URL);
-            var popCitiesNode = document.DocumentNode.SelectNodes(POP_CITIES_XPATH);
-            List<string> popCitiesLinks = null;
-            foreach (var citiesNode in popCitiesNode)
-            {
-                // делим на 2, т.к. для каждого города по 2 ноды (одна с нужными нам атрибутами,
-                // другая с html-текстом)
-                popCitiesLinks = new List<string>(citiesNode.ChildNodes.Count / 2);
-                foreach (var cityNode in citiesNode.ChildNodes)
-                {
-                    foreach (var cityNodeAttr in cityNode.Attributes)
-                    {
-                        if (cityNodeAttr.Name == "href")
-                            popCitiesLinks.Add(cityNodeAttr.Value);
-                    }
-                }
-            }
-            return popCitiesLinks?.Select(p => URL + p.TrimStart('/') + TIME_RANGE_POSTFIX).ToList();
-        }
+            //var stopwatch = Stopwatch.StartNew();
 
-        private CityWeather GetCityWeather(string urlToCity)
-        {
-            HtmlDocument document = _htmlWeb.Load(urlToCity);
+            HtmlDocument document = new HtmlDocument();
+            document.LoadHtml(html);
             var cityNode = document.DocumentNode.SelectSingleNode("//div[@class='subnav_search_city js_citytitle']");
-            //var daysOfWeekNodes = document.DocumentNode.SelectNodes("//div[@class='w_date']/a/div[@class='w_date__day']");
             var dayNodes = document.DocumentNode.SelectNodes("//div[@class='w_date']/a/span[contains(@class, 'w_date__date')]");
             var minMaxTempNodes = document.DocumentNode.SelectSingleNode("//div[@class='templine w_temperature']/div[@class='chart chart__temperature']/div[@class='values']");
             var maxWindNodes = document.DocumentNode.SelectNodes("//div[@class='widget__row widget__row_table widget__row_wind-or-gust']/div[@class='widget__item']/div[@class='w_wind']/div[@class='w_wind__warning w_wind__warning_ ']/span[@class='unit unit_wind_m_s']");
             var precipitationNodes = document.DocumentNode.SelectNodes("//div[@class='w_prec__value']");
 
             var dates = GetDatesByNodes(dayNodes);
+
+            //Debug.WriteLine(stopwatch.ElapsedMilliseconds);
 
             var oneDayWeathers = new List<OneDayWeather>(10);
             for (int i = 0; i < 10; i++)
@@ -59,6 +37,8 @@ namespace GismeteoParser.Grabber
                 int.TryParse(maxWindNodes[i].InnerText.Replace("&minus;", "-"), out int MaxWindSpeedMs);
                 decimal.TryParse(precipitationNodes[i].InnerText, out decimal precMm);
 
+                //Debug.WriteLine(stopwatch.ElapsedMilliseconds);
+
                 oneDayWeathers.Add(new OneDayWeather()
                 {
                     Date = dates[i],
@@ -69,8 +49,10 @@ namespace GismeteoParser.Grabber
                 });
             }
 
+            //stopwatch.Stop();
+
             return new CityWeather()
-            { 
+            {
                 CityName = cityNode.InnerText,
                 DaysWeather = oneDayWeathers
             };
@@ -111,17 +93,6 @@ namespace GismeteoParser.Grabber
                 case "дек": return 12;
                 default:
                     return DateTime.Now.Month;
-            }
-        }
-
-        public IEnumerable<CityWeather> GetTopCitiesWeather()
-        {
-            var popCitiesLinks = GetPopCitiesLinks();
-            //return new List<CityWeather>() { GetCityWeather("https://www.gismeteo.ru/weather-sankt-peterburg-4079/10-days/") };
-
-            foreach (var cityLink in popCitiesLinks)
-            {
-                yield return GetCityWeather(cityLink);
             }
         }
     }
