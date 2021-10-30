@@ -8,5 +8,10 @@
         public int MinTempC { get; set; }
         public int MaxWindSpeedMs { get; set; }
         public decimal PrecipitationMm { get; set; }
+
+        public override string ToString()
+        {
+            return $"{DayOfWeek}\t{DayPlusMonth}\t{MaxTempC} C,\t{MinTempC} C,\t{MaxWindSpeedMs} м/с,\t{PrecipitationMm} мм";
+        }
     }
 }

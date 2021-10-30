@@ -41,16 +41,19 @@ namespace GismeteoParser.Grabber
             var cityNode = document.DocumentNode.SelectSingleNode("//div[@class='subnav_search_city js_citytitle']");
             var daysOfWeekNodes = document.DocumentNode.SelectNodes("//div[@class='w_date']/a/div[@class='w_date__day']");
             var dayNodes = document.DocumentNode.SelectNodes("//div[@class='w_date']/a/span[contains(@class, 'w_date__date')]");
-            var maxTempNodes = document.DocumentNode.SelectNodes("//div[@class='maxt']/span[@class='unit unit_temperature_c']");
-            var minTempNodes = document.DocumentNode.SelectNodes("//div[@class='mint']/span[@class='unit unit_temperature_c']");
+            var minMaxTempNodes = document.DocumentNode.SelectSingleNode("//div[@class='templine w_temperature']/div[@class='chart chart__temperature']/div[@class='values']");
             var maxWindNodes = document.DocumentNode.SelectNodes("//div[@class='widget__row widget__row_table widget__row_wind-or-gust']/div[@class='widget__item']/div[@class='w_wind']/div[@class='w_wind__warning w_wind__warning_ ']/span[@class='unit unit_wind_m_s']");
             var precipitationNodes = document.DocumentNode.SelectNodes("//div[@class='w_prec__value']");
 
             var oneDayWeathers = new List<OneDayWeather>(10);
             for (int i = 0; i < 10; i++)
             {
-                int.TryParse(minTempNodes[i].InnerText.Replace("&minus;", "-"), out int minTempC);
-                int.TryParse(maxTempNodes[i].InnerText.Replace("&minus;", "-"), out int maxTempC);
+                var maxTempNode = minMaxTempNodes.ChildNodes[i].SelectSingleNode("div[@class='maxt']/span[@class='unit unit_temperature_c']");
+                var minTempNode = minMaxTempNodes.ChildNodes[i].SelectSingleNode("div[@class='mint']/span[@class='unit unit_temperature_c']");
+                if (minTempNode == null)
+                    minTempNode = maxTempNode;
+                int.TryParse(minTempNode.InnerText.Replace("&minus;", "-"), out int minTempC);
+                int.TryParse(maxTempNode.InnerText.Replace("&minus;", "-"), out int maxTempC);
                 int.TryParse(maxWindNodes[i].InnerText.Replace("&minus;", "-"), out int MaxWindSpeedMs);
                 decimal.TryParse(precipitationNodes[i].InnerText, out decimal precMm);
 
@@ -72,11 +75,15 @@ namespace GismeteoParser.Grabber
             };
         }
 
-        public IEnumerable<string> Get()
+        public IEnumerable<CityWeather> GetTopCitiesWeather()
         {
-            var s = GetPopCitiesLinks();
-            GetCityWeather(s.First());
-            return s;
+            var popCitiesLinks = GetPopCitiesLinks();
+            //return new List<CityWeather>() { GetCityWeather("https://www.gismeteo.ru/weather-sankt-peterburg-4079/10-days/") };
+
+            foreach (var cityLink in popCitiesLinks)
+            {
+                yield return GetCityWeather(cityLink);
+            }
         }
     }
 }
