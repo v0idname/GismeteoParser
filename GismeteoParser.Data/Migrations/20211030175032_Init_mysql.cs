@@ -1,8 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace GismeteoParser.Data.Migrations
 {
-    public partial class Init : Migration
+    public partial class Init_mysql : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -11,7 +12,7 @@ namespace GismeteoParser.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     CityName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -20,11 +21,11 @@ namespace GismeteoParser.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "OneDayWeathers",
+                name: "OneDayWeather",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     DayOfWeek = table.Column<string>(nullable: true),
                     DayPlusMonth = table.Column<string>(nullable: true),
                     MaxTempC = table.Column<int>(nullable: false),
@@ -35,25 +36,25 @@ namespace GismeteoParser.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OneDayWeathers", x => x.Id);
+                    table.PrimaryKey("PK_OneDayWeather", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_OneDayWeathers_CitiesWeather_CityWeatherId",
+                        name: "FK_OneDayWeather_CitiesWeather_CityWeatherId",
                         column: x => x.CityWeatherId,
                         principalTable: "CitiesWeather",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_OneDayWeathers_CityWeatherId",
-                table: "OneDayWeathers",
+                name: "IX_OneDayWeather_CityWeatherId",
+                table: "OneDayWeather",
                 column: "CityWeatherId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "OneDayWeathers");
+                name: "OneDayWeather");
 
             migrationBuilder.DropTable(
                 name: "CitiesWeather");

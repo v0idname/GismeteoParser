@@ -2,19 +2,28 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Pomelo.EntityFrameworkCore.MySql.Storage;
 using System;
 
 namespace GismeteoParser.Grabber
 {
     class Program
     {
-        const string _connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=GismeteoParser.db;Integrated Security=True";
+        const string _mssqlConnectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=GismeteoParser.db;Integrated Security=True";
+        const string _mySqlConnString = "server=localhost;user=root;password=root;database=GismeteoParser.db;";
+        const string _mySqlServerVersion = "5.7.36";
+        //const MySqlServerVersion _mySqlServerVersion = new MySqlServerVersion(new Version(8, 0, 11));
+        //optionsBuilder.UseMySql(
+        //        "server=localhost;user=root;password=12345678;database=usersdb5;", 
+
+        //    );
 
         static void Main(string[] args)
         {
             Console.WriteLine("Grabber запущен, идёт обновление БД...");
 
-            var dbContext = new CityWeatherDbContext(new DbContextOptionsBuilder<CityWeatherDbContext>().UseSqlServer(_connectionString).Options);
+            var dbContext = new CityWeatherDbContext(new DbContextOptionsBuilder<CityWeatherDbContext>().UseMySql(
+                _mySqlConnString, s => s.ServerVersion(new ServerVersion(_mySqlServerVersion))).Options);
             dbContext.Database.Migrate();
 
             var gp = new GismeteoParser();
@@ -26,8 +35,10 @@ namespace GismeteoParser.Grabber
                 dbContext.CitiesWeather.Add(cityWeather);
             dbContext.SaveChanges();
 
-            Console.WriteLine("БД обновлена, нажмите любую клавишу для выхода...");
+            dbContext.Dispose();
 
+            Console.WriteLine("БД обновлена, нажмите любую клавишу для выхода...");
+            
             Console.ReadKey();
         }
 
@@ -39,7 +50,7 @@ namespace GismeteoParser.Grabber
         {
             services.AddDbContext<CityWeatherDbContext>(optAction =>
             {
-                optAction.UseSqlServer(_connectionString);
+                optAction.UseMySql(_mySqlConnString, s => s.ServerVersion(new ServerVersion(_mySqlServerVersion)));
             }, ServiceLifetime.Transient, ServiceLifetime.Transient);
         }
     }
