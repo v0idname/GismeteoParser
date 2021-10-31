@@ -34,7 +34,7 @@ namespace GismeteoParser.Service
         {
             return _dbContext.OneDayWeathers
                 .Where(s => s.CityWeather.CityName == cityName)
-                .Where(s => s.Date == date)
+                .Where(s => s.Date.Day == date.Day && s.Date.Month == date.Month)
                 .FirstOrDefault();
         }
 

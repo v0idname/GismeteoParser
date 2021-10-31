@@ -157,12 +157,18 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\Dates.cshtml" />
+    <Content Include="Views\Home\Weather.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GismeteoParser.Data\GismeteoParser.Data.csproj">
+      <Project>{BACD3389-2EE7-4335-BBF7-EF1EE1696922}</Project>
+      <Name>GismeteoParser.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GismeteoParser.Service\GismeteoParser.Service.csproj">
       <Project>{67EF9929-21C3-42E0-BA9C-7268932685D2}</Project>
       <Name>GismeteoParser.Service</Name>

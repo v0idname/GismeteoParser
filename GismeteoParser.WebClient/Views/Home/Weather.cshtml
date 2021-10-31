@@ -1,0 +1,29 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Weather</title>
+</head>
+<body>
+    <table class="table">
+        <tr>
+            <td>Мин. температура, С</td>
+            <td>Макс. температура, С</td>
+            <td>Макс. ветер, м/с</td>
+            <td>Осадки, мм</td>
+        </tr>
+        <tr>
+            <td>@ViewBag.Weather.MinTempC</td>
+            <td>@ViewBag.Weather.MaxTempC</td>
+            <td>@ViewBag.Weather.MaxWindSpeedMs</td>
+            <td>@ViewBag.Weather.PrecipitationMm</td>
+        </tr>
+
+    </table>
+</body>
+</html>

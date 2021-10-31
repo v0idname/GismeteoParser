@@ -4,15 +4,15 @@
 }
 
 <div>
-    <h3>Популярные города</h3>
+    <h3>Доступные даты для города</h3>
     <table>
         <tr>
             <td></td>
         </tr>
-        @foreach (string city in ViewBag.Cities)
+        @foreach (DateTime date in ViewBag.Dates)
         {
             <tr>
-                <td><a href="/Home/GetDates/@city.ToString()">@city</a></td>
+                <td><a href="/Home/GetWeather?date=@date.ToString("M")">@date.ToString("M")</a></td>
             </tr>
         }
     </table>
