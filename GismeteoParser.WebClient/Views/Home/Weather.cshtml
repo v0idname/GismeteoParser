@@ -5,6 +5,7 @@
     <title>Weather</title>
 </head>
 <body>
+    <h3>Погода на @ViewBag.Weather.Date.ToString("M")</h3>
     <table class="table">
         <tr>
             <td>Мин. температура, С</td>
@@ -16,7 +17,7 @@
             <td>@ViewBag.Weather.MinTempC</td>
             <td>@ViewBag.Weather.MaxTempC</td>
             <td>@ViewBag.Weather.MaxWindSpeedMs</td>
-            <td>@ViewBag.Weather.PrecipitationMm</td>
+            <td>@String.Format("{0:0.00}", ViewBag.Weather.PrecipitationMm)</td>
         </tr>
 
     </table>
