@@ -11,7 +11,7 @@
         @foreach (string city in ViewBag.Cities)
         {
             <tr>
-                <td><a href="/Home/GetDates/@city.ToString()">@city</a></td>
+                <td><a href="/Home/GetDates?city=@city">@city</a></td>
             </tr>
         }
     </table>

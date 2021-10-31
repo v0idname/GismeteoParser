@@ -3,15 +3,15 @@
 }
 
 <div>
-    <h3>Доступные даты для города</h3>
+    <h3>Доступные даты для города @ViewBag.CityDates.CityName</h3>
     <table>
         <tr>
             <td></td>
         </tr>
-        @foreach (DateTime date in ViewBag.Dates)
+        @foreach (DateTime date in ViewBag.CityDates.Dates)
         {
             <tr>
-                <td><a href="/Home/GetWeather?date=@date.ToString("M")">@date.ToString("M")</a></td>
+                <td><a href="/Home/GetWeather?city=@ViewBag.CityDates.CityName&date=@date">@date.ToString("M")</a></td>
             </tr>
         }
     </table>

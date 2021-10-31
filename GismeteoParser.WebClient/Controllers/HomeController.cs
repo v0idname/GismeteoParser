@@ -1,4 +1,5 @@
 ﻿using GismeteoParser.Service;
+using GismeteoParser.WebClient.Models;
 using System;
 using System.Web.Mvc;
 
@@ -9,7 +10,6 @@ namespace GismeteoParser.WebClient.Controllers
         const string _mySqlConnString = "server=localhost;user=root;password=root;database=GismeteoParser.db;";
         const string _mySqlServerVersion = "5.7.36";
         GismeteoDataService gismeteoService = new GismeteoDataService();
-        const string _city = "Санкт-Петербург";
 
         public HomeController()
         {
@@ -25,15 +25,19 @@ namespace GismeteoParser.WebClient.Controllers
         [HttpGet]
         public ActionResult GetDates(string city)
         {
-            ViewBag.Dates = gismeteoService.GetDates(_city);
+            ViewBag.CityDates = new CityDates()
+            {
+                CityName = city,
+                Dates = gismeteoService.GetDates(city)
+            };  
             return View("Dates");
         }
 
         [HttpGet]
         public ActionResult GetWeather(string city, string date)
         {
-            var d = DateTime.Parse(date);
-            ViewBag.Weather = gismeteoService.GetOneDayWeather(_city, d);
+            var dt = DateTime.Parse(date);
+            ViewBag.Weather = gismeteoService.GetOneDayWeather(city, dt);
             return View("Weather");
         }
     }
