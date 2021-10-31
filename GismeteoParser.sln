@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GismeteoParser.Service", "G
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GismeteoParser.ConsoleClient", "GismeteoParser.ConsoleClient\GismeteoParser.ConsoleClient.csproj", "{0FC0CEFA-AA6F-46C2-BE64-8C2FF6D9E112}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GismeteoParser.WebClient", "GismeteoParser.WebClient\GismeteoParser.WebClient.csproj", "{68D84E6A-D5EE-4EBE-AB35-ED9825BE1C9D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{0FC0CEFA-AA6F-46C2-BE64-8C2FF6D9E112}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0FC0CEFA-AA6F-46C2-BE64-8C2FF6D9E112}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0FC0CEFA-AA6F-46C2-BE64-8C2FF6D9E112}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68D84E6A-D5EE-4EBE-AB35-ED9825BE1C9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68D84E6A-D5EE-4EBE-AB35-ED9825BE1C9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68D84E6A-D5EE-4EBE-AB35-ED9825BE1C9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68D84E6A-D5EE-4EBE-AB35-ED9825BE1C9D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
