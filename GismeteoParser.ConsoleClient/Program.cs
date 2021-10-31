@@ -16,7 +16,7 @@ namespace GismeteoParser.ConsoleClient
             service.ConnectToMySql(_mySqlConnString, _mySqlServerVersion);
 
             Console.WriteLine("Cервис готов к работе. Доступные города:");
-            var cities = service.GetCities();
+            var cities = service.GetPopCities();
             Console.WriteLine(string.Join("\r\n", cities.Select((c, i) => $"{i} - {c}")));
 
             Console.WriteLine("Введите название города (индекс строки): ");

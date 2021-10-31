@@ -1,29 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using GismeteoParser.Service;
 using System.Web.Mvc;
 
 namespace GismeteoParser.WebClient.Controllers
 {
     public class HomeController : Controller
     {
+        const string _mySqlConnString = "server=localhost;user=root;password=root;database=GismeteoParser.db;";
+        const string _mySqlServerVersion = "5.7.36";
+
         public ActionResult Index()
         {
-            return View();
-        }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
+            var gismeteoService = new GismeteoDataService();
+            gismeteoService.ConnectToMySql(_mySqlConnString, _mySqlServerVersion);
+            ViewBag.Cities = gismeteoService.GetPopCities();
             return View();
         }
     }

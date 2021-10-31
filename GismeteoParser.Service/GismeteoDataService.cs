@@ -17,7 +17,7 @@ namespace GismeteoParser.Service
                 connectionString, s => s.ServerVersion(new ServerVersion(serverVersion))).Options);
         }
 
-        public IEnumerable<string> GetCities()
+        public IEnumerable<string> GetPopCities()
         {
             return _dbContext.CitiesWeather
                 .Select(s => s.CityName);
