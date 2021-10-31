@@ -9,43 +9,32 @@ namespace GismeteoParser.Grabber.Parsers
 {
     public class TenDaysCityWeatherParser : ICityWeatherParser
     {
+        private const int DaysCount = 10;
+
         public CityWeather GetCityWeather(string html)
         {
             //var stopwatch = Stopwatch.StartNew();
 
             HtmlDocument document = new HtmlDocument();
             document.LoadHtml(html);
-            var cityNode = document.DocumentNode.SelectSingleNode("//div[@class='subnav_search_city js_citytitle']");
-            var dayNodes = document.DocumentNode.SelectNodes("//div[@class='w_date']/a/span[contains(@class, 'w_date__date')]");
-            var minMaxTempNodes = document.DocumentNode.SelectSingleNode("//div[@class='templine w_temperature']/div[@class='chart chart__temperature']/div[@class='values']");
-            var maxWindNodes = document.DocumentNode.SelectNodes("//div[@class='widget__row widget__row_table widget__row_wind-or-gust']/div[@class='widget__item']/div[@class='w_wind']/div[@class='w_wind__warning w_wind__warning_ ']/span[@class='unit unit_wind_m_s']");
-            var precipitationNodes = document.DocumentNode.SelectNodes("//div[@class='w_prec__value']");
-
-            var dates = GetDatesByNodes(dayNodes);
+            var mainNode = document.DocumentNode.SelectSingleNode("//div[@class='widget__container']");
+            var dates = GetDatesByNodes(mainNode);
+            var temps = GetMinMaxTempC(mainNode);
+            var winds = GetMaxWindSpeed(mainNode);
+            var precs = GetPrecipitations(mainNode);
 
             //Debug.WriteLine(stopwatch.ElapsedMilliseconds);
 
-            var oneDayWeathers = new List<OneDayWeather>(10);
-            for (int i = 0; i < 10; i++)
+            var oneDayWeathers = new List<OneDayWeather>(DaysCount);
+            for (int i = 0; i < DaysCount; i++)
             {
-                var maxTempNode = minMaxTempNodes.ChildNodes[i].SelectSingleNode("div[@class='maxt']/span[@class='unit unit_temperature_c']");
-                var minTempNode = minMaxTempNodes.ChildNodes[i].SelectSingleNode("div[@class='mint']/span[@class='unit unit_temperature_c']");
-                if (minTempNode == null)
-                    minTempNode = maxTempNode;
-                int.TryParse(minTempNode.InnerText.Replace("&minus;", "-"), out int minTempC);
-                int.TryParse(maxTempNode.InnerText.Replace("&minus;", "-"), out int maxTempC);
-                int.TryParse(maxWindNodes[i].InnerText.Replace("&minus;", "-"), out int MaxWindSpeedMs);
-                decimal.TryParse(precipitationNodes[i].InnerText, out decimal precMm);
-
-                //Debug.WriteLine(stopwatch.ElapsedMilliseconds);
-
                 oneDayWeathers.Add(new OneDayWeather()
                 {
                     Date = dates[i],
-                    MinTempC = minTempC,
-                    MaxTempC = maxTempC,
-                    MaxWindSpeedMs = MaxWindSpeedMs,
-                    PrecipitationMm = precMm
+                    MinTempC = temps.min[i],
+                    MaxTempC = temps.max[i],
+                    MaxWindSpeedMs = winds[i],
+                    PrecipitationMm = precs[i]
                 });
             }
 
@@ -53,17 +42,73 @@ namespace GismeteoParser.Grabber.Parsers
 
             return new CityWeather()
             {
-                CityName = cityNode.InnerText,
+                CityName = GetCityName(document),
                 DaysWeather = oneDayWeathers
             };
         }
 
-        private List<DateTime> GetDatesByNodes(HtmlNodeCollection nodes)
+        private string GetCityName(HtmlDocument htmlDoc)
         {
-            var resList = new List<DateTime>(10);
+            return htmlDoc.DocumentNode.SelectSingleNode("//div[@class='subnav_search_city js_citytitle']").InnerText;
+        }
+
+        private (List<int> max, List<int> min) GetMinMaxTempC(HtmlNode node)
+        {
+            var max = new List<int>(DaysCount);
+            var min = new List<int>(DaysCount);
+            var minMaxTempNodes = node.SelectSingleNode(".//div[@class='templine w_temperature']" +
+                "/div[@class='chart chart__temperature']/div[@class='values']");
+            foreach (var tempNode in minMaxTempNodes.ChildNodes)
+            {
+                var maxTempNode = tempNode.SelectSingleNode("div[@class='maxt']/span[@class='unit unit_temperature_c']");
+                var minTempNode = tempNode.SelectSingleNode("div[@class='mint']/span[@class='unit unit_temperature_c']");
+                if (minTempNode == null)
+                    minTempNode = maxTempNode;
+                max.Add(GetIntFromHtml(maxTempNode.InnerText));
+                min.Add(GetIntFromHtml(minTempNode.InnerText));
+            }
+
+            return (max, min);
+        }
+
+        private int GetIntFromHtml(string htmlNumber)
+        {
+            int.TryParse(htmlNumber.Replace("&minus;", "-"), out int res);
+            return res;
+        }
+
+        private List<int> GetMaxWindSpeed(HtmlNode node)
+        {
+            var windSpeeds = new List<int>(DaysCount);
+            var maxWindNodes = node.SelectNodes(".//div[@class='widget__row widget__row_table widget__row_wind-or-gust']" +
+                "/div[@class='widget__item']/div[@class='w_wind']/div[@class='w_wind__warning w_wind__warning_ ']" +
+                "/span[@class='unit unit_wind_m_s']");
+            foreach (var windNode in maxWindNodes)
+            {
+                windSpeeds.Add(GetIntFromHtml(windNode.InnerText));
+            }
+            return windSpeeds;
+        }
+
+        private List<decimal> GetPrecipitations(HtmlNode node)
+        {
+            var precs = new List<decimal>(DaysCount);
+            var precipitationNodes = node.SelectNodes(".//div[@class='w_prec__value']");
+            foreach (var precNode in precipitationNodes)
+            {
+                decimal.TryParse(precNode.InnerText, out decimal precMm);
+                precs.Add(precMm);
+            }
+            return precs;
+        }
+
+        private List<DateTime> GetDatesByNodes(HtmlNode node)
+        {
+            var nodes = node.SelectNodes(".//div[@class='w_date']/a/span[contains(@class, 'w_date__date')]");
+            var resList = new List<DateTime>(DaysCount);
             var dateNow = DateTime.Now;
             var lastMonth = dateNow.Month;
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < DaysCount; i++)
             {
                 var s = nodes[i].InnerText.Trim('\n').Trim().Split(' ');
                 if (!int.TryParse(s[0], out int day))

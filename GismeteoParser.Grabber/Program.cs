@@ -29,10 +29,10 @@ namespace GismeteoParser.Grabber
 
             Console.WriteLine("Идёт обновление БД...");
 
-            var dbContext = new CityWeatherDbContext(new DbContextOptionsBuilder<CityWeatherDbContext>().UseMySql(
-                _mySqlConnString, s => s.ServerVersion(new ServerVersion(_mySqlServerVersion))).Options);
-            dbContext.Database.Migrate();
-            dbContext.CitiesWeather.RemoveRange(dbContext.CitiesWeather);
+            //var dbContext = new CityWeatherDbContext(new DbContextOptionsBuilder<CityWeatherDbContext>().UseMySql(
+            //    _mySqlConnString, s => s.ServerVersion(new ServerVersion(_mySqlServerVersion))).Options);
+            //dbContext.Database.Migrate();
+            //dbContext.CitiesWeather.RemoveRange(dbContext.CitiesWeather);
 
             ICityWeatherParser cityWeatherParser = new TenDaysCityWeatherParser();
             htmlGetter = new WebClientHtmlGetter();
@@ -41,11 +41,11 @@ namespace GismeteoParser.Grabber
             {
                 var cityHtml = htmlGetter.GetHtmlByUrl(cityLink);
                 var cityWeather = cityWeatherParser.GetCityWeather(cityHtml);
-                //Console.WriteLine(cityWeather);
-                dbContext.CitiesWeather.Add(cityWeather);
+                Console.WriteLine(cityWeather);
+                //dbContext.CitiesWeather.Add(cityWeather);
             }
-            dbContext.SaveChanges();
-            dbContext.Dispose();
+            //dbContext.SaveChanges();
+            //dbContext.Dispose();
 
             Console.WriteLine("БД обновлена, нажмите любую клавишу для выхода...");
             
