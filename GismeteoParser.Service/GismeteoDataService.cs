@@ -32,7 +32,8 @@ namespace GismeteoParser.Service
 
         public OneDayWeather GetOneDayWeather(string cityName, DateTime date)
         {
-            return _dbContext.OneDayWeathers.Include(s => s.CityWeather)
+            return _dbContext.OneDayWeathers
+                .Include(s => s.CityWeather)
                 .Where(s => s.CityWeather.CityName == cityName)
                 .Where(s => s.Date.Day == date.Day && s.Date.Month == date.Month)
                 .FirstOrDefault();
