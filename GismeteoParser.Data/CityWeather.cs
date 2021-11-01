@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace GismeteoParser.Data
 {
     public class CityWeather : Entity
     {
+        [DataMember]
         public string CityName { get; set; }
 
         public IEnumerable<OneDayWeather> DaysWeather { get; set; }

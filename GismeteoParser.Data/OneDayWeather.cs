@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
+using System.Runtime.Serialization;
 
 namespace GismeteoParser.Data
 {
@@ -9,6 +11,9 @@ namespace GismeteoParser.Data
         public int MinTempC { get; set; }
         public int MaxWindSpeedMs { get; set; }
         public decimal PrecipitationMm { get; set; }
+        
+        [JsonIgnore] 
+        [IgnoreDataMember]
         public CityWeather CityWeather { get; set; }
 
         public override string ToString()

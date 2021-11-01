@@ -21,22 +21,25 @@ namespace GismeteoParser.WebService.Controllers
         public IEnumerable<string> GetPopCities()
         {
             return _citiesWeatherRepo.Items
-                .Select(s => s.CityName);
+                .Select(s => s.CityName)
+                .ToList();
         }
 
         public IEnumerable<DateTime> GetDates(string cityName)
         {
             return _oneDayWeathersRepo.Items
                 .Where(s => s.CityWeather.CityName == cityName)
-                .Select(s => s.Date);
+                .Select(s => s.Date)
+                .ToList();
         }
 
-        public OneDayWeather GetOneDayWeather(string cityName, DateTime date)
+        public OneDayWeather GetOneDayWeather(string cityName, string date)
         {
+            var d = DateTime.Parse(date);
             return _oneDayWeathersRepo.Items
                 .Include(s => s.CityWeather)
                 .Where(s => s.CityWeather.CityName == cityName)
-                .Where(s => s.Date.Day == date.Day && s.Date.Month == date.Month)
+                .Where(s => s.Date.Day == d.Day && s.Date.Month == d.Month)
                 .FirstOrDefault();
         }
     }
