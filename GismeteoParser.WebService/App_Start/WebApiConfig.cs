@@ -2,7 +2,7 @@
 using Autofac.Integration.WebApi;
 using GismeteoParser.Data;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+using System.Configuration;
 using System.Reflection;
 using System.Web.Http;
 
@@ -19,14 +19,10 @@ namespace GismeteoParser.WebService
             builder.RegisterType<OneDayWeatherRepository>().As<IRepository<OneDayWeather>>();
             builder.Register(c =>
             {
-                //var cconfig = c.Resolve<IConfiguration>();
                 var opt = new DbContextOptionsBuilder<CityWeatherDbContext>();
-                //opt.UseMySql(cconfig.GetConnectionString("MySql"));
-                opt.UseMySql("server=localhost;user=root;password=root;database=GismeteoParser.db;");
-                //UseMySql(connectionString, s => s.ServerVersion(new ServerVersion(serverVersion))).Options);
+                opt.UseMySql(ConfigurationManager.ConnectionStrings["mysql"].ConnectionString);
                 return new CityWeatherDbContext(opt.Options);
             }).AsSelf().InstancePerLifetimeScope();
-
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
 
             var container = builder.Build();
