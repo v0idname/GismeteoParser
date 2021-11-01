@@ -172,6 +172,7 @@
     <Compile Include="CityWeather.cs" />
     <Compile Include="CityWeatherDbContext.cs" />
     <Compile Include="Entity.cs" />
+    <Compile Include="IRepository.cs" />
     <Compile Include="Migrations\20211030175032_Init_mysql.cs" />
     <Compile Include="Migrations\20211030175032_Init_mysql.designer.cs">
       <DependentUpon>20211030175032_Init_mysql.cs</DependentUpon>
@@ -187,6 +188,7 @@
     <Compile Include="Migrations\CityWeatherDbContextModelSnapshot.cs" />
     <Compile Include="OneDayWeather.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="DbRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
