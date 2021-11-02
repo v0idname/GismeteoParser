@@ -1,0 +1,18 @@
+﻿@{
+    ViewBag.Title = "Web Client For Gismeteo Parser";
+}
+
+<div>
+    <h3>Доступные даты для города @ViewBag.CityDates.CityName</h3>
+    <table>
+        <tr>
+            <td></td>
+        </tr>
+        @foreach (DateTime date in ViewBag.CityDates.Dates)
+        {
+            <tr>
+                <td><a href="/Home/GetWeather?city=@ViewBag.CityDates.CityName&date=@date">@date.ToString("M")</a></td>
+            </tr>
+        }
+    </table>
+</div>
