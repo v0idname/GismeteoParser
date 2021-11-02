@@ -15,7 +15,7 @@
 | GismeteoParser.WebService | Web-API проект, предоставляющий клиентам информацию о погоде из БД |
 | GismeteoParser.ServiceClient | Интерфейс для работы с Web API, используемый клиентами |
 | GismeteoParser.ConsoleClient | Консольный клиент |
-| GismeteoParser.ConsoleClient | Web клиент |
+| GismeteoParser.WebClient | Web клиент |
 
 ## Usage
 1. В проекте WebService в файле Web.config указать строку подключения к БД.
