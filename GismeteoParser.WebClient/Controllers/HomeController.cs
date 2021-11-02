@@ -1,43 +1,42 @@
-﻿using GismeteoParser.Service;
+﻿using GismeteoParser.ServiceClient;
 using GismeteoParser.WebClient.Models;
 using System;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace GismeteoParser.WebClient.Controllers
 {
     public class HomeController : Controller
     {
-        const string _mySqlConnString = "server=localhost;user=root;password=root;database=GismeteoParser.db;";
-        const string _mySqlServerVersion = "5.7.36";
-        GismeteoDataService gismeteoService = new GismeteoDataService();
+        private readonly IWeatherClient _weatherClient;
 
-        public HomeController()
+        public HomeController(IWeatherClient weatherClient)
         {
-            gismeteoService.ConnectToMySql(_mySqlConnString, _mySqlServerVersion);
+            _weatherClient = weatherClient;
         }
 
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            ViewBag.Cities = gismeteoService.GetPopCities();
+            ViewBag.Cities = await _weatherClient.GetPopCitiesAsync();
             return View();
         }
 
         [HttpGet]
-        public ActionResult GetDates(string city)
+        public async Task<ActionResult> GetDates(string city)
         {
             ViewBag.CityDates = new CityDates()
             {
                 CityName = city,
-                Dates = gismeteoService.GetDates(city)
+                Dates = await _weatherClient.GetDatesAsync(city)
             };  
             return View("Dates");
         }
 
         [HttpGet]
-        public ActionResult GetWeather(string city, string date)
+        public async Task<ActionResult> GetWeather(string city, string date)
         {
             var dt = DateTime.Parse(date);
-            ViewBag.Weather = gismeteoService.GetOneDayWeather(city, dt);
+            ViewBag.Weather = await _weatherClient.GetOneDayWeatherAsync(city, dt);
             return View("Weather");
         }
     }

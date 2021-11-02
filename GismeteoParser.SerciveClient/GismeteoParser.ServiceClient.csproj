@@ -4,17 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{0FC0CEFA-AA6F-46C2-BE64-8C2FF6D9E112}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>GismeteoParser.ConsoleClient</RootNamespace>
-    <AssemblyName>GismeteoParser.ConsoleClient</AssemblyName>
+    <ProjectGuid>{4D0F3EC3-5D68-4958-9C2C-C81B2E82FDF9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>GismeteoParser.SerciveClient</RootNamespace>
+    <AssemblyName>GismeteoParser.SerciveClient</AssemblyName>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,7 +23,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -33,8 +31,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -49,26 +47,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="IWeatherClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-    <None Include="packages.config" />
+    <Compile Include="WeatherClient.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GismeteoParser.Data\GismeteoParser.Data.csproj">
       <Project>{BACD3389-2EE7-4335-BBF7-EF1EE1696922}</Project>
       <Name>GismeteoParser.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GismeteoParser.SerciveClient\GismeteoParser.ServiceClient.csproj">
-      <Project>{4D0F3EC3-5D68-4958-9C2C-C81B2E82FDF9}</Project>
-      <Name>GismeteoParser.ServiceClient</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GismeteoParser.WebService\GismeteoParser.WebService.csproj">
-      <Project>{B3A1C695-22AA-478D-9D2D-73BA23D0C5A8}</Project>
-      <Name>GismeteoParser.WebService</Name>
-    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

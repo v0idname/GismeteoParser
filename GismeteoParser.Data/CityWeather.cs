@@ -1,13 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace GismeteoParser.Data
 {
     public class CityWeather : Entity
     {
-        [DataMember]
+        //[DataMember]
         public string CityName { get; set; }
 
+        [JsonIgnore]
+        [IgnoreDataMember]
         public IEnumerable<OneDayWeather> DaysWeather { get; set; }
 
         public override string ToString()

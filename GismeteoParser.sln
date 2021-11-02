@@ -7,13 +7,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GismeteoParser.Grabber", "G
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GismeteoParser.Data", "GismeteoParser.Data\GismeteoParser.Data.csproj", "{BACD3389-2EE7-4335-BBF7-EF1EE1696922}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GismeteoParser.Service", "GismeteoParser.Service\GismeteoParser.Service.csproj", "{67EF9929-21C3-42E0-BA9C-7268932685D2}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GismeteoParser.ConsoleClient", "GismeteoParser.ConsoleClient\GismeteoParser.ConsoleClient.csproj", "{0FC0CEFA-AA6F-46C2-BE64-8C2FF6D9E112}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GismeteoParser.WebClient", "GismeteoParser.WebClient\GismeteoParser.WebClient.csproj", "{68D84E6A-D5EE-4EBE-AB35-ED9825BE1C9D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GismeteoParser.WebService", "GismeteoParser.WebService\GismeteoParser.WebService.csproj", "{B3A1C695-22AA-478D-9D2D-73BA23D0C5A8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GismeteoParser.ServiceClient", "GismeteoParser.SerciveClient\GismeteoParser.ServiceClient.csproj", "{4D0F3EC3-5D68-4958-9C2C-C81B2E82FDF9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,6 @@ Global
 		{BACD3389-2EE7-4335-BBF7-EF1EE1696922}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BACD3389-2EE7-4335-BBF7-EF1EE1696922}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BACD3389-2EE7-4335-BBF7-EF1EE1696922}.Release|Any CPU.Build.0 = Release|Any CPU
-		{67EF9929-21C3-42E0-BA9C-7268932685D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{67EF9929-21C3-42E0-BA9C-7268932685D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{67EF9929-21C3-42E0-BA9C-7268932685D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{67EF9929-21C3-42E0-BA9C-7268932685D2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0FC0CEFA-AA6F-46C2-BE64-8C2FF6D9E112}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0FC0CEFA-AA6F-46C2-BE64-8C2FF6D9E112}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0FC0CEFA-AA6F-46C2-BE64-8C2FF6D9E112}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -45,6 +41,10 @@ Global
 		{B3A1C695-22AA-478D-9D2D-73BA23D0C5A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B3A1C695-22AA-478D-9D2D-73BA23D0C5A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B3A1C695-22AA-478D-9D2D-73BA23D0C5A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D0F3EC3-5D68-4958-9C2C-C81B2E82FDF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D0F3EC3-5D68-4958-9C2C-C81B2E82FDF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D0F3EC3-5D68-4958-9C2C-C81B2E82FDF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D0F3EC3-5D68-4958-9C2C-C81B2E82FDF9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
