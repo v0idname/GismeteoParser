@@ -18,10 +18,11 @@
 | GismeteoParser.WebClient | Web клиент |
 
 ## Usage
-1. Запустить Grabber.
-2. В проекте WebService в файле Web.config указать строку подключения к БД.
-3. Запустить WebService.
-4. Запустить WebClient.
-5. Запустить любой из клиентов (если используется веб клиент, то в проекте WebClient в файле Web.config необходимо указать URL веб сервиса)
+1. В проекте Grabber в файле App.config указать строку подключения к БД.
+2. Запустить Grabber.
+3. В проекте WebService в файле Web.config указать строку подключения к БД.
+4. Запустить WebService.
+5. Запустить WebClient.
+6. Запустить любой из клиентов (если используется веб клиент, то в проекте WebClient в файле Web.config необходимо указать URL веб сервиса)
 
 (*) Всё это удобнее делать через опцию Multiple Startup Projects в Visual Stidio, предварительно задав конфигурацию через Web.config файлы.
