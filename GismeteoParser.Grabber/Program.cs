@@ -4,17 +4,14 @@ using GismeteoParser.Grabber.Parsers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Pomelo.EntityFrameworkCore.MySql.Storage;
 using System;
+using System.Configuration;
 using System.Linq;
 
 namespace GismeteoParser.Grabber
 {
     class Program
     {
-        const string _mssqlConnectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=GismeteoParser.db;Integrated Security=True";
-        const string _mySqlConnString = "server=localhost;user=root;password=root;database=GismeteoParser.db;";
-        const string _mySqlServerVersion = "5.7.36";
         const string URL = "https://www.gismeteo.ru/";
         const string TIME_RANGE_POSTFIX = "10-days/";
 
@@ -30,7 +27,7 @@ namespace GismeteoParser.Grabber
             Console.WriteLine("Идёт обновление БД...");
 
             var dbContext = new CityWeatherDbContext(new DbContextOptionsBuilder<CityWeatherDbContext>().UseMySql(
-                _mySqlConnString, s => s.ServerVersion(new ServerVersion(_mySqlServerVersion))).Options);
+                ConfigurationManager.ConnectionStrings["mysql"].ConnectionString).Options);
             dbContext.Database.Migrate();
             dbContext.CitiesWeather.RemoveRange(dbContext.CitiesWeather);
 
@@ -60,7 +57,7 @@ namespace GismeteoParser.Grabber
         {
             services.AddDbContext<CityWeatherDbContext>(optAction =>
             {
-                optAction.UseMySql(_mySqlConnString, s => s.ServerVersion(new ServerVersion(_mySqlServerVersion)));
+                optAction.UseMySql(ConfigurationManager.ConnectionStrings["mysql"].ConnectionString);
             }, ServiceLifetime.Transient, ServiceLifetime.Transient);
         }
     }
