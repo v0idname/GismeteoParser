@@ -9,7 +9,7 @@ namespace GismeteoParser.ConsoleClient
         static void Main(string[] args)
         {
             Console.WriteLine("Устанавливаем подключение с сервисом...");
-            var serviceUri = new MyUri() { "https://localhost:44361/" };
+            var serviceUri = new Uri("https://localhost:44361/");
             var client = new WeatherClient(serviceUri);
 
             Console.WriteLine("Cервис готов к работе. Доступные города:");
