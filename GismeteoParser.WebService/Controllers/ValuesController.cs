@@ -30,6 +30,7 @@ namespace GismeteoParser.WebService.Controllers
             return _oneDayWeathersRepo.Items
                 .Where(s => s.CityWeather.CityName == cityName)
                 .Select(s => s.Date)
+                .OrderBy(s => s)
                 .ToList();
         }
 
