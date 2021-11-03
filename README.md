@@ -29,11 +29,11 @@
 В папке DBdump содержится sql файл для восстановления содержимого БД (вместе с данными)
 Для его применения необходимо создать новую БД 
 ```
-mysql> create database gs;
+mysql> create database <имя новой БД>;
 ```
 и применить дамп к ней
 ```
-shell> mysql -u root -p gs < gismeteoparser_dump.sql
+shell> mysql -u <пользователь mysql> -p <имя новой БД> < gismeteoparser_dump.sql
 ```
 
 
